@@ -10,14 +10,17 @@ vignette(package = 'data.tree')
 
 #install.packages("ahp")
 library(ahp)
-ahpFile <- system.file("data", "data.ahp", package="ahp")
-carAhp <- LoadFile(ahpFile)
+#ahpFile <- system.file("data", "data.ahp")
+ahpFile <- system.file("extdata", "car.ahp", package="ahp")
+carAhp <- Load(ahpFile)
 
 library(data.tree)
 print(carAhp, filterFun = isNotLeaf)
 
 Calculate(carAhp)
-print(carAhp, "weight")
+print(carAhp, priority = function(x) x$parent$priority["Total", x$name])
 
-GetDataFrame(carAhp)
-ShowTable(carAhp)
+Visualize(carAhp)
+Analyze(carAhp)
+
+AnalyzeTable(carAhp)
