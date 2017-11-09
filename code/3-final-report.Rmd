@@ -1,0 +1,20 @@
+---
+title: "Analytic Hierarchy Process for Vulnerability Formula"
+author: "Prepared by UNHCR"
+date: "Amman, prepared on the `r format(Sys.Date(),  '%d %B %Y')`"
+output:
+  word_document:
+    fig_caption: yes
+    fig_height: 5
+    fig_width: 8
+    toc: yes
+    toc_depth: 2
+    reference_docx: style-unhcr-portrait.docx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
