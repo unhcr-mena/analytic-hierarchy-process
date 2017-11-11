@@ -2,11 +2,11 @@
 
 #install.packages("R6")
 library(R6)
-vignette('Introduction', package = 'R6')
+#vignette('Introduction', package = 'R6')
 
 #install.packages("data.tree")
 library(data.tree)
-vignette(package = 'data.tree')
+#vignette(package = 'data.tree')
 
 #install.packages("ahp")
 library(ahp)
