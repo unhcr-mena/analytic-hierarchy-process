@@ -15,9 +15,13 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
+## Defining weights through expert judgment 
+- How each expert can come up with values for the weight? 
+- How to reach agreement among expert on the suggested values? 
+- Is there an alternative to expert consensus building? 
 
 
-## Scoring Vulnerability 
+## Use case with the Scoring Vulnerability 
 
 Vulnerability is not observed 
 - Intellectual construction based on multiple - criteria 
@@ -26,27 +30,31 @@ The challenge is:
 - Define the criteria 
 - Define relative weight to be used for each criteria 
 
-## Define weights through expert judgment 
-- How each expert can come up with values for the weight? 
-- How to reach agreement among expert on the suggested values? 
-- Is there an alternative to expert consensus building? 
-
 ## The analytic hierarchy process (AHP)
 - Structured technique for organizing and analysing complex decisions, based on mathematics and psychology 
 - Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making 
 - Comparison is made between 2 alternatives based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence 
 - Developed in the 70’s by Thomas Saaty
 
-## How to?
+## Limitation of AHP
+Assume a minimum level of judgement consistency
+Limited number of criteria (not more than 7…)
+Data should be available for all criteria
+Assume that when new alternatives are added to a decision problem, the ranking of the old alternatives must not change 
+
+
+## How to? A step by step approach
 
 1. Define vulnerability criteria
-2. Establish priorities between criteria by making a series of 
-3. judgments based on pairwise comparisons.
-4. Synthesize these judgments to yield a set of overall priorities
-5. Check judgments consistency
-6. Compute weights
+2. Build the expert consultation form
+3. Generate the AHP file from the collected data
+4. Run AHP algorythm
+5. Review results
+6. Apply the formula
 
-## Define vulnerability criteria
+
+
+## 1. Define vulnerability criteria
 
 List all potential criteria that would contribute to vulnerability within the current context – for instance
 
@@ -56,33 +64,36 @@ List all potential criteria that would contribute to vulnerability within the cu
     Occurrence of Specific needs
     Do not Receive assistance
 
-## Hierarchy Tree
+## 2. Build the expert consultation form
 
-
-## Ranking Scales for Criteria
+Establish priorities between criteria by making a series of judgments based on pairwise comparisons.
 - Collect judgment for all pairwise comparison and each expert
+- Ranking Scales for Criteria
+
+
+
+
+## 3. Generate the AHP file from the collected data
+Build Hierarchy Tree
+
+## 4.  Run AHP algorythm
+- Calculation done using [R statistical language](https://rpubs.com/gluc/ahp)
+- Synthesize these judgments to yield a set of overall priorities
+- Check judgments consistency (consistency ratio)
 - Compute weights for each expert
 - Mathematical calculations to convert these judgments to priorities for each of the four criteria
 
-## Check consistencies
-- Calculate consistency ratio
+## 5. Review results
 - Lack of consistency is always observed
 If consistency ratio is above 0.1, then judgement are untrustworthy because they are too close to randomness -> exercise needs to be repeated or abandonned
+
+## 6. Apply the formula
 - Calculate mean relative weight
 - Apply the vulnerability formula
 - Collect data on each criteria for all household
 - Apply weight to each record for the different criteria to get the vulnerability level of each household
 
 
-## Limitation of AHP
-Assume a minimum level of judgement consistency
-Limited number of criteria (not more than 7…)
-Data should be available for all criteria
-Assume that when new alternatives are added to a decision problem, the ranking of the old alternatives must not change 
-
-## Implementation
- - Calculation can be done using R statistical language
-https://rpubs.com/gluc/ahp
  
  
 
