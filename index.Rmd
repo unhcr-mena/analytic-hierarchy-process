@@ -1,11 +1,13 @@
 ---
-title: "Analytic Hierachy Process to define score weights"
+title: "Tutorial: Using Analytic Hierachy Process to define score weights"
 author: "UNHCR MENA"
 date: "Amman, `r format(Sys.Date(),  '%d %B %Y')`"
 output: 
-  ioslides_presentation: 
+  slidy_presentation: 
+    css: css/slidy-unhcr.css
     highlight: pygments
     logo: img/UNHCR_logo-sq-big.png
+    footer: "UNHCR"
 ---
 
 ```{r setup, include=FALSE}
