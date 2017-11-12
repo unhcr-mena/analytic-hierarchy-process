@@ -76,13 +76,15 @@ assitance     | Do not Receive assistance
 
 ## 2. Build the expert consultation form
 
-A form will allow to collect from expert priorities between criteria by making a series of judgments based on pairwise comparisons 
-- Collect judgment for all pairwise comparison and each expert
+A form will allow to collect from expert priorities between criteria by making a series of judgments based on pairwise comparisons:  
+
+- Collect judgment for all pairwise comparison and each expert 
+
 - Ranking Scales for Criteria
 
 Use the function ```1-Build-xlsform.R``` to build a [xlsform file](http://xlsform.org) based on criteria defined above.
 
-The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org)
+The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org). Experts can be humanitarian case workers that are used to assess vulnerability. 
 
 
 
