@@ -1,5 +1,5 @@
 ---
-title: "Tutorial: Using Analytic Hierachy Process to define score weights"
+title: "Tutorial: Using Analytic Hierarchy Process to define score weights"
 author: "UNHCR MENA"
 date: "Amman, `r format(Sys.Date(),  '%d %B %Y')`"
 output: 
@@ -16,9 +16,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ## Defining weights through expert judgment 
-- How each expert can come up with values for the weight? 
+- How expert can come up with values for the weight? 
 - How to reach agreement among expert on the suggested values? 
-- Is there an alternative to expert consensus building? 
+- Is there an alternative to lenghty consensus building? 
 
 
 ## Use case with the Scoring Vulnerability 
@@ -66,7 +66,7 @@ List all potential criteria that would contribute to vulnerability within the cu
 
 ## 2. Build the expert consultation form
 
-Establish priorities between criteria by making a series of judgments based on pairwise comparisons.
+- Establish priorities between criteria by making a series of judgments based on pairwise comparisons ( N*(N-1)/2: _5 criteria -> 10 comparisons, 6 criteria -> 15 comparison, 7 criteria -> 24 comparisons, 8 criteria -> 28 comparisons, 9 criteria -> 36 comparisons_... )
 - Collect judgment for all pairwise comparison and each expert
 - Ranking Scales for Criteria
 

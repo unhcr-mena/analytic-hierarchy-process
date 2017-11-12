@@ -7,6 +7,19 @@ criteria <- read_excel("data/form.xls", sheet = "criteria")
 
 ## Build pairwise comparision label
 
+## build survey sheet
+survey <- data.frame(name = names(df),
+                     type = rep(as.character(NA), ncol(df)),
+                     label = names(df),
+                     chapter = rep(as.character(NA), ncol(df)),
+                     disaggregation = rep(as.character(NA), ncol(df)),
+                     correlate = rep(as.character(NA), ncol(df)),
+                     variable = rep(as.character(NA), ncol(df)),
+                     sensitive = rep(as.character(NA), ncol(df)),
+                     anonymise = rep(as.character(NA), ncol(df)),
+                     stringsAsFactors = FALSE)
+
+
 surveytemp <- data.frame(c("trigger"))
 names(surveytemp)[1] <- "compname"
 #surveytemp$compname <- "trigger"
