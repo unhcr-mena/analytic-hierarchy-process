@@ -1,0 +1,9 @@
+type,name,label,hint,required,relevant
+start,start,,,,
+end,end,,,,
+username,username,,,,
+note,intro,"Thank you for participating in the Criteria Comparison Exercise. The following survey has been designed to help you recording your opinion.",,false,
+begin_group,gro_background_rev,Background information on reviewer,,,
+text,operation,In which operation do you work?,,true,
+integer,experience,How many years of casework experience do you have?,,true,
+end_group,,,,,
