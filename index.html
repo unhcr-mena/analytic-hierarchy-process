@@ -31,8 +31,13 @@ UNHCR MENA
 </div>
 <div id="use-case-with-the-scoring-vulnerability" class="slide section level2">
 <h2>Use case with the Scoring Vulnerability</h2>
-<p>Vulnerability is not observed - Intellectual construction based on multiple - criteria</p>
-<p>The challenge is: - Define the criteria - Define relative weight to be used for each criteria</p>
+<p>Vulnerability is not observed, it’s a latent variable, an intellectual construction based on multiple - criteria</p>
+<p>The challenge is:</p>
+<ul>
+<li>Define the criteria<br />
+</li>
+<li>Define relative weight to be used for each criteria</li>
+</ul>
 </div>
 <div id="the-analytic-hierarchy-process-ahp" class="slide section level2">
 <h2>The analytic hierarchy process (AHP)</h2>
@@ -45,7 +50,12 @@ UNHCR MENA
 </div>
 <div id="limitation-of-ahp" class="slide section level2">
 <h2>Limitation of AHP</h2>
-<p>Assume a minimum level of judgement consistency Limited number of criteria (not more than 7…) Data should be available for all criteria Assume that when new alternatives are added to a decision problem, the ranking of the old alternatives must not change</p>
+<ul>
+<li><p>Assume a minimum level of judgement consistency among experts</p></li>
+<li><p>Limited number of criteria to minimise the numer of pairwise comparison estimation - N*(N-1)/2 pairs to review: <em>5 criteria -&gt; 10 comparisons, 6 criteria -&gt; 15 comparison, 7 criteria -&gt; 24 comparisons, 8 criteria -&gt; 28 comparisons, 9 criteria -&gt; 36 comparisons</em></p></li>
+<li><p>Data should be available for all criteria</p></li>
+<li><p>The approach assumes that when new alternatives are added to a decision problem, the ranking of the old alternatives must not change</p></li>
+</ul>
 </div>
 <div id="how-to-a-step-by-step-approach" class="slide section level2">
 <h2>How to? A step by step approach</h2>
@@ -60,24 +70,53 @@ UNHCR MENA
 </div>
 <div id="define-vulnerability-criteria" class="slide section level2">
 <h2>1. Define vulnerability criteria</h2>
-<p>List all potential criteria that would contribute to vulnerability within the current context – for instance</p>
-<pre><code>Age of head of household is above 50
-Gender of head of household is female
-Household size is above 5
-Occurrence of Specific needs
-Do not Receive assistance</code></pre>
+<ul>
+<li><p>List potential criteria that would contribute to vulnerability within the current context</p></li>
+<li><p>Establish treehold for criteria so that they can be formulated as simple binary questions</p></li>
+</ul>
+<p>for instance, the following criteria can be saved in a csv file.</p>
+<table>
+<thead>
+<tr class="header">
+<th>criteria code</th>
+<th>criteria label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>age</td>
+<td>Age of head of household is above 50</td>
+</tr>
+<tr class="even">
+<td>gender</td>
+<td>Gender of head of household is female</td>
+</tr>
+<tr class="odd">
+<td>size</td>
+<td>Household size is above 5</td>
+</tr>
+<tr class="even">
+<td>needs</td>
+<td>Occurrence of Specific needs</td>
+</tr>
+<tr class="odd">
+<td>assitance</td>
+<td>Do not Receive assistance</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="build-the-expert-consultation-form" class="slide section level2">
 <h2>2. Build the expert consultation form</h2>
-<ul>
-<li>Establish priorities between criteria by making a series of judgments based on pairwise comparisons ( N*(N-1)/2: <em>5 criteria -&gt; 10 comparisons, 6 criteria -&gt; 15 comparison, 7 criteria -&gt; 24 comparisons, 8 criteria -&gt; 28 comparisons, 9 criteria -&gt; 36 comparisons</em>… )</li>
-<li>Collect judgment for all pairwise comparison and each expert</li>
-<li>Ranking Scales for Criteria</li>
-</ul>
+<p>A form will allow to collect from expert priorities between criteria by making a series of judgments based on pairwise comparisons - Collect judgment for all pairwise comparison and each expert - Ranking Scales for Criteria</p>
+<p>Use the function <code>1-Build-xlsform.R</code> to build a <a href="http://xlsform.org">xlsform file</a> based on criteria defined above.</p>
+<p>The form can be used within <a href="httpp://kobo.unhcr.org">UNHCR Kobo server</a></p>
 </div>
 <div id="generate-the-ahp-file-from-the-collected-data" class="slide section level2">
 <h2>3. Generate the AHP file from the collected data</h2>
-<p>Build Hierarchy Tree</p>
+<p>Once collected from exprt (aka. decision-makers), data can be exported from <a href="httpp://kobo.unhcr.org">UNHCR Kobo server</a> in csv format.</p>
+<p>Use the function <code>2-build-hierarchy.R</code> to build a <a href="http://xlsform.org">xlsform file</a> to create the <a href="https://cran.r-project.org/web/packages/ahp/vignettes/file-format.html">AHP file</a>.</p>
+<p>This create the file recording the pairwise preferences of each decision-makers</p>
 </div>
 <div id="run-ahp-algorythm" class="slide section level2">
 <h2>4. Run AHP algorythm</h2>
@@ -91,8 +130,10 @@ Do not Receive assistance</code></pre>
 </div>
 <div id="review-results" class="slide section level2">
 <h2>5. Review results</h2>
+<p>Knit the <code>3-final-report.Rmd</code> to get the report</p>
 <ul>
-<li>Lack of consistency is always observed If consistency ratio is above 0.1, then judgement are untrustworthy because they are too close to randomness -&gt; exercise needs to be repeated or abandonned</li>
+<li><p>Lack of consistency is often observed</p></li>
+<li><p>If <strong>consistency ratio is above 0.1</strong>, then judgement are untrustworthy because they are too close to randomness -&gt; exercise needs to be repeated or abandonned.</p></li>
 </ul>
 </div>
 <div id="apply-the-formula" class="slide section level2">

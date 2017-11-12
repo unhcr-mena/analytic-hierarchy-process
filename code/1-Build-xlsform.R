@@ -69,17 +69,34 @@ for (i in 1:nrow(criteria)) {
 
 }
 #surveytemp <- surveytemp[ 2:nrow(surveytemp), ]
-
+cat("1 - writing to form.xlsx")
 library(xlsx) #load the package
 write.xlsx(x = survey, file = "data/form.xlsx", sheetName = "survey", row.names = FALSE)
 write.xlsx(x = choices, file = "data/form.xlsx", sheetName = "choices", row.names = FALSE, append = TRUE)
 write.xlsx(x = settings, file = "data/form.xlsx", sheetName = "settings", row.names = FALSE, append = TRUE)
 
-
+cat("2 - writing to form.xls")
 # install.packages("WriteXLS")
 library(WriteXLS)
 WriteXLS("survey", "data/form.xls", AdjWidth = TRUE, BoldHeaderRow = TRUE, AutoFilter = TRUE, FreezeRow = 1)
 #WriteXLS("choices", "data/form.xls", AdjWidth = TRUE, BoldHeaderRow = TRUE, AutoFilter = TRUE, FreezeRow = 1)
 library(XLConnect)
 writeWorksheetToFile(file = "data/form.xls", data = choices, sheet = "choices")
-writeWorksheetToFile(file = "data/form.xls", data = settings, sheet = "settings")
+#writeWorksheetToFile(file = "data/form.xls", data = settings, sheet = "settings")
+
+# Load workbook (create if not existing)
+wb <- loadWorkbook("data/form.xls")
+
+# Create a worksheet
+createSheet(survey, name = "survey")
+createSheet(choices, name = "choices")
+createSheet(settings, name = "settings")
+
+# Write built-in data set 'CO2' to the worksheet created above;
+# offset from the top left corner and with default header = TRUE
+writeWorksheet(wb, survey, sheet = "survey")
+appendWorksheet(wb, choices, sheet = "choices")
+writeWorksheet(wb, settings, sheet = "settings")
+
+# Save workbook (this actually writes the file to disk)
+saveWorkbook(wb)

@@ -10,19 +10,27 @@ library(data.tree)
 
 #install.packages("ahp")
 library(ahp)
-#ahpFile <- system.file("data", "data.ahp")
+
 #ahpFile <- system.file("extdata", "car.ahp", package="ahp")
-ahpFile <- system.file("extdata", "tom_dick_harry.ahp", package="ahp")
+#ahpFile <- system.file("extdata", "tom_dick_harry.ahp", package="ahp")
 #ahpFile <- system.file("extdata", "vacation.ahp", package="ahp")
-carAhp <- Load(ahpFile)
 
-library(data.tree)
-print(carAhp, filterFun = isNotLeaf)
+## Load all required packages
+mainDir <- getwd()
+ahpFile <- paste0(mainDir,"/data/car.ahp")
+ahpFile <- paste0(mainDir,"/data/data.ahp")
+processedAHP <- Load(ahpFile)
 
-Calculate(carAhp)
-print(carAhp, priority = function(x) x$parent$priority["Total", x$name])
 
-Visualize(carAhp)
-Analyze(carAhp)
+print(processedAHP, filterFun = isNotLeaf)
 
-AnalyzeTable(carAhp)
+Calculate(processedAHP)
+print(processedAHP, priority = function(x) x$parent$priority["Total", x$name])
+
+Visualize(processedAHP)
+
+Analyze(processedAHP)
+AnalyzeTable(processedAHP)
+
+## install.packages("shinythemes")
+RunGUI(port = getOption("shiny.port"))
