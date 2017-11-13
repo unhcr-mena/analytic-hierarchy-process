@@ -124,9 +124,11 @@ This create the file that format correctly the pairwise preferences of each deci
 
 ## 5. Review results
 
-Knit the ```3-final-report.Rmd``` to get the report
+Knit the ```3-final-report.Rmd``` to get the report. You can see an [example here](code/3-final-report.html).
 
-You can see an example [here](code/3-final-report.html)
+An [interactive](https://shinyus.ipub.com/ahp/inst/gui/shiny/) interface is available to interact with results.
+
+
 
 - Lack of consistency is often observed 
 
