@@ -40,7 +40,7 @@ The challenge is:
 
 - Assume a minimum level of judgement consistency among experts
 
-- Limited number of criteria to minimise the numer of pairwise comparison estimation -  N*(N-1)/2 pairs to review: _5 criteria -> 10 comparisons, 6 criteria -> 15 comparison, 7 criteria -> 24 comparisons, 8 criteria -> 28 comparisons, 9 criteria -> 36 comparisons_
+- Limited number of criteria to minimise the numer of pairwise comparison estimation -  
 
 - Data should be available for all criteria
 
@@ -60,19 +60,37 @@ The challenge is:
 
 ## 1. Define vulnerability criteria
 
-- List potential criteria that would contribute to vulnerability within the current context 
+- List potential criteria that would contribute to vulnerability within the current context. Note that criteria can be grouped togehter using hierarchy. 
 
 - Establish treehold for criteria so that they can be formulated as simple binary questions
 
-for instance, the following criteria can be saved in a csv file.
+Criteria should be saved as ```data/criteria.csv``` file.
 
-criteria code | criteria label 
-------------- | -------------------------------------
-age           | Age of head of household is above 50 
-gender        | Gender of head of household is female
-size          | Household size is above 5
-needs         | Occurrence of Specific needs
-assitance     | Do not Receive assistance
+## Criteria without hierarchy
+
+In this case N*(N-1)/2 pairs to review: _5 criteria -> 10 comparisons_ 
+
+Criteria code | Criteria Level 1 label                 | Criteria Level 2 label
+------------- | ---------------------------------------| -------------------------------------
+age           | Age of head of household is above 50   |
+gender        | Gender of head of household is female  |
+size          | Household size is above 5              |
+needs         | Occurrence of Specific needs           |
+assitance     | Do not Receive assistance              |
+
+PS: 6 criteria -> 15 comparison, 7 criteria -> 24 comparisons, 8 criteria -> 28 comparisons, 9 criteria -> 36 comparisons
+
+## Criteria with hierarchy
+
+In this case 6 pairs to review... 
+
+Criteria code | Criteria Level 1 label                 | Criteria Level 2 label
+------------- | ---------------------------------------| -------------------------------------
+age           |  Demography                            |Age of head of household is above 50 
+gender        |  Demography                            |Gender of head of household is female
+size          |  Demography                            |Household size is above 5 
+needs         | Occurrence of Specific needs           |
+assitance     | Do not Receive assistance              |
 
 ## 2. Build the expert consultation form
 
@@ -85,8 +103,6 @@ A form will allow to collect from expert priorities between criteria by making a
 Use the function ```1-Build-xlsform.R``` to build a [xlsform file](http://xlsform.org) based on criteria defined above.
 
 The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org). Experts can be humanitarian case workers that are used to assess vulnerability. 
-
-
 
 ## 3. Generate the AHP file from the collected data
 
@@ -108,6 +124,8 @@ This create the file recording the pairwise preferences of each decision-makers
 ## 5. Review results
 
 Knit the ```3-final-report.Rmd``` to get the report
+
+You can see an example [here](code/3-final-report.html)
 
 - Lack of consistency is often observed 
 
