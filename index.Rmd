@@ -31,10 +31,10 @@ The challenge is:
 - Define relative weight to be used for each criteria 
 
 ## The analytic hierarchy process (AHP)
-- Structured technique for organizing and analysing complex decisions, based on mathematics and psychology 
-- Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making 
+- [Structured technique](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) for organizing and analysing complex decisions, based on mathematics and psychology 
+- Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making. Rather than prescribing a "correct" decision, the AHP helps decision makers find one that best suits their goal and their understanding of the problem 
 - Comparison is made between 2 alternatives based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence 
-- Developed in the 70’s by Thomas Saaty
+- Developed in the 70’s by Thomas Saaty - (2001). [Decision Making for Leaders: The Analytic Hierarchy Process for Decisions in a Complex World](https://books.google.jo/books?id=c8KqSWPFwIUC&lpg=PA1&dq=inauthor%3A%22Thomas%20L.%20Saaty%22&pg=PA1#v=onepage&q&f=false)
 
 ## Limitation of AHP 
 
@@ -99,6 +99,7 @@ A form will allow to collect from expert priorities between criteria by making a
 - Collect judgment for all pairwise comparison and each expert 
 
 - Ranking Scales for Criteria
+![CScales.](graphics/importance.png)
 
 Use the function ```1-Build-xlsform.R``` to build a [xlsform file](http://xlsform.org) based on criteria defined above.
 
