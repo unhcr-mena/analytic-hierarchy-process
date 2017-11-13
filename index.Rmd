@@ -107,11 +107,11 @@ The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org). Experts
 ## 3. Generate the AHP file from the collected data
 
 
-Once collected from exprt (aka. decision-makers), data can be exported from [UNHCR Kobo server](httpp://kobo.unhcr.org) in csv format.
+Once the selected experts (aka. decision-makers) have filled the online form , data can be exported from [UNHCR Kobo server](httpp://kobo.unhcr.org) in csv format.
 
 Use the function ```2-build-hierarchy.R``` to build a [xlsform file](http://xlsform.org) to create the [AHP file](https://cran.r-project.org/web/packages/ahp/vignettes/file-format.html).
 
-This create the file recording the pairwise preferences of each decision-makers
+This create the file that format correctly the pairwise preferences of each decision-makers to run the next step.
 
 
 ## 4.  Run AHP algorythm
