@@ -51,33 +51,30 @@ write(as.yaml(ahptree.Goal.preferences), "data/datatest2.ahp")
 #summary(ahptree.Goal.children)
 
 
-#####################
-
-## now converting the list to a data tree ####
+############################################################
+## Now converting the list to a data tree ##################
 ahpnode <- as.Node(ahptree)
 ## Name 'children' is a reserved word as defined in NODE_RESERVED_NAMES_CONST
 ## The conversion does not work properly..
-str(ahpnode)
-class(ahpnode)
-## "Node" "R6"
-#summary(ahpnode)
-
 print(ahpnode)
+class(ahpnode)
+str(ahpnode)
+## "Node" "R6"
 ahpnode$fieldsAll
 
-## Use a function to get directly from YAML to data tree
+##############################################################
+## Use a function to get directly from YAML to data tree #####
 ahpnode2 <- Load(ahpFile)
 
 # look at the structure
-ahpnode2
-str(ahpnode)
-class(ahpnode)
+
+print(ahpnode2)
+class(ahpnode2)
+str(ahpnode2)
 ## "Node" "R6"
-#summary(ahpnode)
+ahpnode2$fieldsAll
 
-print(ahpnode)
-ahpnode$fieldsAll
-
+### changing the structure
 # look at some preference dfs
 ahpnode2$preferences$Dad$pairwise$preferences
 
@@ -92,10 +89,20 @@ ahpnode2$preferences$Dad$pairwise$preferences <- newprefs
 
 # reset voting powers by code (power to the children!):
 ahpnode2$`decision-makers` <- c(Dad = 0.1, Mom = 0.2, Kid = 0.7)
+
 # ...except maybe for spa, that's still Mom's territory
 ahpnode2$Spa$`decision-makers` <- c(Dad = 0.2, Mom = 0.7, Kid = 0.1)
 
+
+## calculate AHP
 Calculate(ahpnode2)
 
-
+## Get the analysis...
 ahp::Analyze(ahpnode2)
+
+################################################################
+## check how we can convert this back to YAML file.. ###########
+as.yaml(ahpnode2)
+write(as.yaml(ahpnode2), "data/datatest3.ahp")
+### don't know how to emit object of type: 'environment', class: Node R6  ???
+
