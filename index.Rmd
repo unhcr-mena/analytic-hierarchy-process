@@ -20,21 +20,25 @@ knitr::opts_chunk$set(echo = FALSE)
 - How to reach agreement among expert on the suggested values? 
 - Is there an alternative to lenghty consensus building? 
 
+Often teams of expert suffer from non-aligned goals, power politics, group dynamics and lack of mutual understanding.
 
-## Use case with the Scoring Vulnerability 
+How to build consensus on complex decisions in order to raise sufficient [confidence in decision outcomes](https://www.youtube.com/watch?v=WRKfl4owWKc)?
 
-Vulnerability is not observed, it's a latent variable, an intellectual construction based on multiple - criteria 
+## Use case with the Scoring of vulnerabilities 
+
+Vulnerability is not observed, it's a latent variable, an intellectual construction based on multiple criteria. 
 
 The challenge is: 
 
-- Define the criteria  
+- Define the criteria
+- Provide a measurement for each criteria
 - Define relative weight to be used for each criteria 
 
 ## The analytic hierarchy process (AHP)
 - [Structured technique](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) for organizing and analysing complex decisions, based on mathematics and psychology 
 - Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making. Rather than prescribing a "correct" decision, the AHP helps decision makers find one that best suits their goal and their understanding of the problem 
-- Comparison is made between 2 alternatives based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence 
-- Developed in the 70’s by Thomas Saaty - (2001). [Decision Making for Leaders: The Analytic Hierarchy Process for Decisions in a Complex World](https://books.google.jo/books?id=c8KqSWPFwIUC&lpg=PA1&dq=inauthor%3A%22Thomas%20L.%20Saaty%22&pg=PA1#v=onepage&q&f=false)
+- Comparison is made to define [priorities between 2 alternatives](http://people.revoledu.com/kardi/tutorial/AHP/Priority%20Vector.htm) based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence. This breaks down complex decision into small judgement 
+- Developed in the 70’s by Thomas Saaty in Wharton Business School. [Decision Making for Leaders: The Analytic Hierarchy Process for Decisions in a Complex World](https://books.google.jo/books?id=c8KqSWPFwIUC&lpg=PA1&dq=inauthor%3A%22Thomas%20L.%20Saaty%22&pg=PA1#v=onepage&q&f=false)
 
 ## Limitation of AHP 
 
@@ -115,8 +119,8 @@ Use the function ```2-build-hierarchy.R``` to build a [xlsform file](http://xlsf
 This create the file that format correctly the pairwise preferences of each decision-makers to run the next step.
 
 
-## 4.  Run AHP algorythm
-- Calculation done using [R statistical language](https://rpubs.com/gluc/ahp)
+## 4.  Run AHP algorithm
+- Calculation done using [R statistical language](https://rpubs.com/gluc/ahp). Note some [proprietary software](https://en.slideshare.net/TransparentChoice/presentations) are also available but would require a [Data Protection Impact Assessment](http://www.refworld.org/pdfid/55643c1d4.pdf#page=28) before using them.
 - Synthesize these judgments to yield a set of overall priorities
 - Check judgments consistency (consistency ratio)
 - Compute weights for each expert
@@ -140,7 +144,7 @@ An [interactive](https://shinyus.ipub.com/ahp/inst/gui/shiny/) interface is avai
 - Collect data on each criteria for all household
 - Apply weight to each record for the different criteria to get the vulnerability level of each household
 
-
+![Scores](graphics/score.jpg)
  
  
 

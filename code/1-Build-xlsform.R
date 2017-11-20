@@ -7,6 +7,10 @@ choices <- read_csv("data/choices.csv")
 ## load criteria
 criteria <- read_csv("data/criteria.csv")
 
+#Note that there is a list of reserved names you cannot use as Node fields (aka indicators)
+# NODE_RESERVED_NAMES_CONST
+
+
 settings <- data.frame(c("Weight Vulnerability Criteria"))
 names(settings)[1] <- "form_title"
 settings$id_string <- "Pairwise comparison of criteria"
