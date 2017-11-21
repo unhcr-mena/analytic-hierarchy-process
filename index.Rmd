@@ -102,12 +102,17 @@ A form will allow to collect from expert priorities between criteria by making a
 
 - Collect judgment for all pairwise comparison and each expert 
 
-- Ranking Scales for Criteria
+- Ranking Scales for Criteria 
+
 ![](graphics/importance.png)
 
 Use the script [```1-Build-xlsform.R```](https://github.com/unhcr-mena/analytic-hierarchy-process/blob/gh-pages/code/1-Build-xlsform.R) to build a [xlsform file](http://xlsform.org) based on criteria defined above.
 
+## Form
 The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org). Experts can be humanitarian case workers that are used to assess vulnerability. 
+See an [example here](https://enketo.unhcr.org/x/#YpFx)
+
+![](graphics/screenshot.jpg)
 
 ## 3. Generate the AHP file from the collected data
 

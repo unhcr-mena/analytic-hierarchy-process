@@ -218,3 +218,10 @@ processedAHP <- Load(ahpFile)
 print(processedAHP, filterFun = isNotLeaf)
 Calculate(processedAHP)
 ahp::Analyze(processedAHP)
+
+ahpFile <- ("data/vacation4.ahp")
+## Check
+processedAHP <- Load(ahpFile)
+print(processedAHP, filterFun = isNotLeaf)
+Calculate(processedAHP)
+ahp::Analyze(processedAHP)
