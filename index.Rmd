@@ -34,7 +34,7 @@ The challenge is:
 - Provide a measurement for each criteria
 - Define relative weights to be used for each criteria 
 
-## The Analytic Hierarchy Orocess (AHP)
+## The Analytic Hierarchy Process (AHP)
 - [Structured technique](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) for organizing and analysing complex decisions, based on mathematics and psychology 
 - Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making. Rather than prescribing a "correct" decision, the AHP helps decision makers find one that best suits their goal and their understanding of the problem 
 - Comparison is made to define [priorities between 2 alternatives](http://people.revoledu.com/kardi/tutorial/AHP/Priority%20Vector.htm) based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence. This breaks down complex decision into small judgement 
