@@ -103,6 +103,11 @@ ahp::Analyze(ahpnode2)
 ################################################################
 ## check how we can convert this back to YAML file.. ###########
 as.yaml(ahpnode2)
-write(as.yaml(ahpnode2), "data/datatest3.ahp")
-### don't know how to emit object of type: 'environment', class: Node R6  ???
+write(as.yaml(ahpnode2), "data/0-test-node-to-yaml.ahp")
+### don't know how to emit object of type: 'environment', class: Node R6
+
+## Convert to list before saving as YAML
+write(as.yaml(ToListExplicit(ahpnode2, unname = TRUE)), "data/0-test-node-to-yaml.ahp")
+
+
 

@@ -26,15 +26,15 @@ How to build consensus on complex decisions in order to raise sufficient [confid
 
 ## Use case with the Scoring of vulnerabilities 
 
-Vulnerability is not observed, it's a latent variable, an intellectual construction based on multiple criteria. 
+Vulnerability is not observed, it's a _latent variable_, an intellectual construction based on multiple criteria. 
 
 The challenge is: 
 
 - Define the criteria
 - Provide a measurement for each criteria
-- Define relative weight to be used for each criteria 
+- Define relative weights to be used for each criteria 
 
-## The analytic hierarchy process (AHP)
+## The Analytic Hierarchy Orocess (AHP)
 - [Structured technique](https://en.wikipedia.org/wiki/Analytic_hierarchy_process) for organizing and analysing complex decisions, based on mathematics and psychology 
 - Comprehensive and rational framework to organise feeling, intuition & logic for structuring group decision making. Rather than prescribing a "correct" decision, the AHP helps decision makers find one that best suits their goal and their understanding of the problem 
 - Comparison is made to define [priorities between 2 alternatives](http://people.revoledu.com/kardi/tutorial/AHP/Priority%20Vector.htm) based on decision-maker’s feeling of priority dues to importance, preference and likelihood of influence. This breaks down complex decision into small judgement 
@@ -42,13 +42,13 @@ The challenge is:
 
 ## Limitation of AHP 
 
-- Assume a minimum level of judgement consistency among experts
+- Assumes a minimum level of judgement consistency among experts
 
 - Limited number of criteria to minimise the numer of pairwise comparison estimation -  
 
 - Data should be available for all criteria
 
-- The approach assumes that when new alternatives are added to a decision problem, the ranking of the old alternatives must not change 
+- Assumes that when new alternatives are added to a decision problem, the ranking of the old alternatives is not changing 
 
 
 ## How to? A step by step approach
@@ -68,13 +68,13 @@ The challenge is:
 
 - Establish treehold for criteria so that they can be formulated as simple binary questions
 
-Criteria should be saved as ```data/criteria.csv``` file.
+Criteria should be saved in a configuration file using the format here [```data/criteria.csv```](https://github.com/unhcr-mena/analytic-hierarchy-process/blob/gh-pages/data/criteria.csv).
 
 ## Criteria without hierarchy
 
 In this case N*(N-1)/2 pairs to review: _5 criteria -> 10 comparisons_ 
 
-Criteria code | Criteria Level 1 label                 | Criteria Level 2 label
+__Criteria-Code__ | __Criteria-Level-1-label__                 | __Criteria-Level-2-label__
 ------------- | ---------------------------------------| -------------------------------------
 age           | Age of head of household is above 50   |
 gender        | Gender of head of household is female  |
@@ -88,7 +88,7 @@ PS: 6 criteria -> 15 comparison, 7 criteria -> 24 comparisons, 8 criteria -> 28 
 
 In this case 6 pairs to review... 
 
-Criteria code | Criteria Level 1 label                 | Criteria Level 2 label
+__Criteria-Code__ | __Criteria-Level-1-label__                 | __Criteria-Level-2-label__
 ------------- | ---------------------------------------| -------------------------------------
 age           |  Demography                            |Age of head of household is above 50 
 gender        |  Demography                            |Gender of head of household is female
@@ -103,28 +103,29 @@ A form will allow to collect from expert priorities between criteria by making a
 - Collect judgment for all pairwise comparison and each expert 
 
 - Ranking Scales for Criteria
-![CScales.](graphics/importance.png)
+![](graphics/importance.png)
 
-Use the function ```1-Build-xlsform.R``` to build a [xlsform file](http://xlsform.org) based on criteria defined above.
+Use the script [```1-Build-xlsform.R```](https://github.com/unhcr-mena/analytic-hierarchy-process/blob/gh-pages/code/1-Build-xlsform.R) to build a [xlsform file](http://xlsform.org) based on criteria defined above.
 
 The form can be used within [UNHCR Kobo server](httpp://kobo.unhcr.org). Experts can be humanitarian case workers that are used to assess vulnerability. 
 
 ## 3. Generate the AHP file from the collected data
 
-
 Once the selected experts (aka. decision-makers) have filled the online form , data can be exported from [UNHCR Kobo server](httpp://kobo.unhcr.org) in csv format.
 
-Use the function ```2-build-hierarchy.R``` to build a [xlsform file](http://xlsform.org) to create the [AHP file](https://cran.r-project.org/web/packages/ahp/vignettes/file-format.html).
+Use the script [```2-build-hierarchy.R```](https://github.com/unhcr-mena/analytic-hierarchy-process/blob/gh-pages/code/2-build-hierarchy.R) to build a [xlsform file](http://xlsform.org) to create the [AHP file](https://cran.r-project.org/web/packages/ahp/vignettes/file-format.html).
 
 This create the file that format correctly the pairwise preferences of each decision-makers to run the next step.
 
 
 ## 4.  Run AHP algorithm
-- Calculation done using [R statistical language](https://rpubs.com/gluc/ahp). Note some [proprietary software](https://en.slideshare.net/TransparentChoice/presentations) are also available but would require a [Data Protection Impact Assessment](http://www.refworld.org/pdfid/55643c1d4.pdf#page=28) before using them.
+- Calculation done using [R statistical language](https://rpubs.com/gluc/ahp). 
 - Synthesize these judgments to yield a set of overall priorities
 - Check judgments consistency (consistency ratio)
 - Compute weights for each expert
 - Mathematical calculations to convert these judgments to priorities for each of the four criteria
+
+Note: Some [proprietary software](https://en.slideshare.net/TransparentChoice/presentations) options are also available but would require a [Data Protection Impact Assessment](http://www.refworld.org/pdfid/55643c1d4.pdf#page=28) before using them.
 
 ## 5. Review results
 
@@ -142,9 +143,13 @@ An [interactive](https://shinyus.ipub.com/ahp/inst/gui/shiny/) interface is avai
 - Calculate mean relative weight
 - Apply the vulnerability formula
 - Collect data on each criteria for all household
-- Apply weight to each record for the different criteria to get the vulnerability level of each household
+- Apply weight to each record for the different criteria to get the vulnerability level of each household 
 
-![Scores](graphics/score.jpg)
+![](graphics/score.jpg)
  
+## Feedback / Comments
  
+Please fill in [an issue](https://github.com/unhcr-mena/analytic-hierarchy-process/issues) .
+
+Thanks to [Christoph Glur](https://github.com/gluc/) for developping the original AHP package and answering [questions](https://github.com/gluc/ahp/issues/17).
 

@@ -25,6 +25,22 @@ processedAHP <- Load(ahpFile)
 print(processedAHP, filterFun = isNotLeaf)
 
 Calculate(processedAHP)
+## Defaults option
+Calculate(processedAHP,
+          pairwiseFun = PrioritiesFromPairwiseMatrixEigenvalues,
+          scoresFun = PrioritiesFromScoresDefault)
+
+## Option 2
+Calculate(processedAHP,
+          pairwiseFun = PrioritiesFromPairwiseMatrixGeometricMean,
+          scoresFun = PrioritiesFromScoresDefault)
+
+
+## Option 3
+Calculate(processedAHP,
+          pairwiseFun = PrioritiesFromPairwiseMatrixMeanNormalization,
+          scoresFun = PrioritiesFromScoresDefault)
+
 print(processedAHP, priority = function(x) x$parent$priority["Total", x$name])
 
 Visualize(processedAHP)
