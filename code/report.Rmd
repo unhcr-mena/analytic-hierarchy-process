@@ -1,18 +1,12 @@
 ---
-title: "Analytic Hierarchy Process for Vulnerability Formula"
-author: "UNHCR MENA"
-date: "Amman, `r format(Sys.Date(),  '%d %B %Y')`"
+title: "Analytic Hierarchy Process Criteria Ranking"
+date: "`r format(Sys.Date(),  '%d %B %Y')`"
 output:
   html_document: 
     toc: yes
     toc_depth: 2
-  word_document:
-    fig_caption: yes
-    fig_height: 5
-    fig_width: 8
-    toc: yes
-    toc_depth: 2
-    reference_docx: style-unhcr-portrait.docx
+params:
+  ahpFile: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -22,10 +16,7 @@ library(R6)
 library(data.tree)
 library(ahp)
 
-mainDir <- getwd()
-mainDirroot <- substring(mainDir, 0 , nchar(mainDir)- 5)
-ahpFile <- paste0(mainDirroot,"/data/car.ahp")
-processedAHP <- Load(ahpFile)
+processedAHP <- Load(params$ahpFile)
 
 ```
 
@@ -38,9 +29,6 @@ The following criteria were compared through pairwise importance analysis
 ```{r criteria, echo=FALSE, warning=FALSE, cache=FALSE, tidy = TRUE, message=FALSE, comment = "", fig.height=4, size="small"}
 
 print(processedAHP, filterFun = isNotLeaf)
-
-
-
 
 ```
 
@@ -62,8 +50,6 @@ Visualize(processedAHP)
 # Output model analysis
 
 ```{r model, echo=FALSE, warning=FALSE, cache=FALSE, tidy = TRUE, message=FALSE, comment = "", fig.height=4, size="small"}
-
-
 
 #Analyze(processedAHP)
 AnalyzeTable(processedAHP)

@@ -1,8 +1,0 @@
-list_name,name,label
-order,firscriteria,First Criteria
-order,secondcriteria,Second Criteria
-order,Equal,Equal Importance
-importance,3,Moderate relative importance of the most important criteria
-importance,5,strong relative importance of the most important criteria
-importance,7,very strong relative importance of the most important criteria
-importance,9,Extreme relative importance of the most important criteria
