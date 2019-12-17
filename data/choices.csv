@@ -6,3 +6,5 @@ importance,3,Moderate relative importance of the most important criteria
 importance,5,strong relative importance of the most important criteria
 importance,7,very strong relative importance of the most important criteria
 importance,9,Extreme relative importance of the most important criteria
+gender,female,Female
+gender,male,Male

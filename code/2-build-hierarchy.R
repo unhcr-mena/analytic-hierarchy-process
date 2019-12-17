@@ -30,11 +30,27 @@ Version <- as.character("2.0")
 # The attributes can be quantitative or qualitative.
 ## In order to do the simulation, we need to build a dummy data frame
 
-## load criteria
+## load criteria  #####
 criteria <- read.csv("data/criteria.csv")
-criteriacode <- as.data.frame(as.character(criteria$critname))
+criteriacode <- as.data.frame(t(as.character(criteria$critname)))
+# names(criteriacode) <- as.character(criteria$critname)
+#
+# criteriacode <- criteriacode, c("yes","no")
+# criteriacode[ 1, ] <- NULL
+#
+# criteriacode <- lapply(DF[sapply(DF, is.character)],
+#           as.factor)
+#
+# testlist <- data.frame(sex = as.factor(c("yes","no")),
+#                      age = as.factor(c("yes","no")),
+#                      gender = as.factor(c("yes","no")),
+#                      size = as.factor(c("yes","no")),
+#                      need = as.factor(c("yes","no")),
+#                      dependency = as.factor(c("yes","no")))
+#
+# test <- expand.grid(testlist)
 
-## Creat a test dataframe with potential combinations
+## Create a Data Frame from All Combinations of Factor Variables
 test <- expand.grid( sex = c("yes","no"),
                   age = c("yes","no"),
                   gender = c("yes","no"),
@@ -42,8 +58,9 @@ test <- expand.grid( sex = c("yes","no"),
                   need = c("yes","no"),
                   assit = c("yes","no"))
 
-## Create a name for the cases
-test$case <- paste0("case.",row.names(test))
+
+### Create a name for the cases ####
+test$case <- paste0("case_",row.names(test))
 
 ## melt it to make it ready to be converted in a list
 test.melt <- melt(test, id.vars = "case")
@@ -58,43 +75,10 @@ for (case in unique(test.melt$case)) {
   }
 }
 str(Alternatives)
-write(as.yaml(Alternatives), "data/1-write-test.ahp")
-
-#### Testing with df into a data.tree structure
-# The pathString describes the hierarchy by defining a path from the root to each leaf.
-#names(test.melt)
-test.melt$pathString <- paste("&alternatives",
-                              test.melt$case,
-                            #  test.melt$variable,
-                              test.melt$value,
-                              sep = "/")
-
-#Once our pathString is defined, conversion to Node is very easy:
-test.melt.node1 <- as.Node(test.melt)
-test.melt.node1
-class(test.melt.node2)
-# but did not work when converting to YAML -
-# don't know how to emit object of type: 'environment', class: Node R6
-write(as.yaml(test.melt.node1), "data/2-write-test-node.ahp")
-## Convert to list before saving as YAML
-write(as.yaml(ToListExplicit(test.melt.node1, unname = TRUE)), "data/2-write-test-node.ahp")
-
-
-## Testing creation directly from the previously created list
-test.melt.node2 <- as.Node(Alternatives)
-test.melt.node2
-print(test.melt.node2)
-##but did not work when converting to YAML
-# don't know how to emit object of type: 'environment', class: Node R6
-write(as.yaml(test.melt.node2), "data/3-write-test-node.ahp")
-## Convert to list before saving as YAML
-write(as.yaml(ToListExplicit(test.melt.node2, unname = TRUE)), "data/3-write-test-node.ahp")
 
 
 
-###########################################################################
 #### Now Goals #######
-###########################################################################
 
 Goal.name <- as.character("Vulnerability.level")
 Goal.description <- as.character("Multi-criteria definition of vulnerability")
@@ -102,7 +86,6 @@ Goal.description <- as.character("Multi-criteria definition of vulnerability")
 ## decision-makersoptional node needed only if not all decision-makers have equal voting power ###
 #Goal.decision-makers <- as.list("decision-makers1","decision-makers2","decision-makers3")
 
-###########################################################################
 #This is where preference for each decision maker is for first level hierarchy
 ### Getting the pairwise  comparision
 # preferences are defined pairwise
@@ -112,7 +95,7 @@ Goal.description <- as.character("Multi-criteria definition of vulnerability")
 
 ## Building Preferences from a data frame
 library(readr)
-data <- read_delim("data/data.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+data <- read_delim("data/data_old.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 #names(data)
 
 ## "intro.name",  "intro.operation", "intro.expertise", "intro.experience"
@@ -157,7 +140,7 @@ for (decisionmakers in unique(data.melt$decisionmakers)) {
 str(Goal.preferences)
 
 ## Rename the pairwise list
-for(i in 1:nrow(as.data.frame(unique(data.melt$decisionmakers)))) {
+for (i in 1:nrow(as.data.frame(unique(data.melt$decisionmakers)))) {
 #  for(j in 1:nrow(as.data.frame(unique(data.melt$variable)))){
     names(Goal.preferences[[i]]) <- c("pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise")
 #  }
@@ -179,49 +162,101 @@ str(Goal)
 ahptree.out <- list(as.character(Version), as.list(Alternatives), as.list(Goal))
 names(ahptree.out ) <- c("Version", "Alternatives","Goal")
 #as.yaml(ahptree.out)
-write(as.yaml(ahptree.out), "data/4-write-test-final.ahp")
-write(as.yaml(ahptree.out, omap = TRUE), "data/5-write-test-final-omap.ahp")
+write( as.yaml(ahptree.out,
+              handlers = list(
+                logical = function(x) {
+                  result <- ifelse(x, "yes", "no", "2.0","pairwise")
+                  class(result) <- "verbatim"
+                  return(result)
+                })),
+     "data/ahp/vulnerability.ahp")
+
+
+write(as.yaml(ahptree.out,
+      handlers = list(
+        logical = function(x) {
+          result <- ifelse(x, "yes", "no")
+          class(result) <- "verbatim"
+          return(result)
+        }),
+      omap = TRUE), "data/ahp/vulnerability-omap.ahp")
+
+
+
+
+
+###########################################################################3
+
+
+as.yaml(Alternatives,
+        handlers = list(
+          logical = function(x) {
+            result <- ifelse(x, "yes", "no")
+            class(result) <- "verbatim"
+            return(result)
+          }
+        ))
+
+# custom handler with verbatim output to avoid quote
+write(as.yaml(Alternatives,
+              handlers = list(
+                logical = function(x) {
+                  result <- ifelse(x, "yes", "no")
+                  class(result) <- "verbatim"
+                  return(result)
+                }
+              )),
+      "data/ahp/1-write-test.ahp")
+
+#### Testing with df into a data.tree structure
+# The pathString describes the hierarchy by defining a path from the root to each leaf.
+#names(test.melt)
+test.melt$pathString <- paste("&alternatives",
+                              test.melt$case,
+                              #  test.melt$variable,
+                              test.melt$value,
+                              sep = "/")
+
+#Once our pathString is defined, conversion to Node is very easy:
+test.melt.node1 <- as.Node(test.melt)
+test.melt.node1
+class(test.melt.node1)
+# but did not work when converting to YAML -
+# don't know how to emit object of type: 'environment', class: Node R6
+#write(as.yaml(test.melt.node1), "data/ahp/2-write-test-node.ahp")
+## Convert to list before saving as YAML
+write(as.yaml(ToListExplicit(test.melt.node1, unname = TRUE)), "data/ahp/2-write-test-node.ahp")
+
+
+## Testing creation directly from the previously created list
+test.melt.node2 <- as.Node(Alternatives)
+test.melt.node2
+print(test.melt.node2)
+class(test.melt.node2)
+str(test.melt.node2)
+test.melt.node2@p_name
+##but did not work when converting to YAML
+# don't know how to emit object of type: 'environment', class: Node R6
+#write(as.yaml(test.melt.node2), "data/ahp/3-write-test-node.ahp")
+## pb - Alternatives: &alternatives
+## Convert to list before saving as YAML
+write(as.yaml(ToListExplicit(test.melt.node2, unname = TRUE)), "data/ahp/3-write-test-node.ahp")
+
+
+
+
+
+
 
 
 ##### Testing..
-ahpFile <- ("data/4-write-test-final.ahp")
+ahpFile <- ("data/ahp/4-write-test-final.ahp")
 ## Check
 processedAHP <- Load(ahpFile)
 print(processedAHP, filterFun = isNotLeaf)
 Calculate(processedAHP)
 ahp::Analyze(processedAHP)
 
-ahpFile <- ("data/test.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
 
-ahpFile <- ("data/vacation.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
 
-ahpFile <- ("data/vacation2.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
 
-ahpFile <- ("data/vacation3.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
-
-ahpFile <- ("data/vacation4.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
