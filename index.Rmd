@@ -138,8 +138,6 @@ Knit the ```3-final-report.Rmd``` to get the report. You can see an [example her
 
 An [interactive](https://shinyus.ipub.com/ahp/inst/gui/shiny/) interface is available to interact with results.
 
-
-
 - Lack of consistency is often observed 
 
 - If __consistency ratio is above 0.1__, then judgement are untrustworthy because they are too close to randomness -> exercise needs to be repeated or abandonned.
