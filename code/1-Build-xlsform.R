@@ -54,7 +54,9 @@ for (i in 1:nrow(criteria)) {
       surveytemp1[2 ,3 ] <- "Scale of __relative__ importance"
       surveytemp1[2 ,4 ] <- "Scale of __relative__ importance"
       surveytemp1[2 ,5 ] <- "true"
-      surveytemp1[2 ,6 ] <- paste0("selected(${",compname,"},'firscriteria') or selected(${",compname,"},'secondcriteria')")
+      surveytemp1[2 ,6 ] <- paste0("selected(${",compname2,
+                                   "},'firscriteria') or selected(${",
+                                   compname2,"},'secondcriteria')")
 
       survey <- rbind(survey, surveytemp1)
       rm(surveytemp1)

@@ -20,8 +20,7 @@ library(reshape2)
 
 #### Structure of the files includes #####
 
-#### Version ##############
-Version <- as.character("2.0")
+
 
 #### Alternatives #########
 ### This where the case and their respective vulnerability criteria are described
@@ -51,37 +50,22 @@ criteriacode <- as.data.frame(t(as.character(criteria$critname)))
 # test <- expand.grid(testlist)
 
 ## Create a Data Frame from All Combinations of Factor Variables
-test <- expand.grid( sex = c("yes","no"),
-                  age = c("yes","no"),
-                  gender = c("yes","no"),
-                  size = c("yes","no"),
-                  need = c("yes","no"),
-                  assit = c("yes","no"))
+test <- expand.grid( sex = c("1","0"),
+                  age = c("1","0"),
+                  gender = c("1","0"),
+                  size = c("1","0"),
+                  need = c("1","0"),
+                  dependency = c("1","0"))
 
 
 ### Create a name for the cases ####
-test$case <- paste0("case_",row.names(test))
+#test$case <- paste0("case_",row.names(test))
 
 ## melt it to make it ready to be converted in a list
-test.melt <- melt(test, id.vars = "case")
-
-### Creating now alternative list
-Alternatives <- list()
-for (case in unique(test.melt$case)) {
-  Alternatives[[case]] <- list()
-  for (variable in unique(test.melt$variable)) {
-  Alternatives[[case]][[variable]] <- as.character(test.melt$value[ test.melt$case == case & test.melt$variable == variable ])
-  #Alternatives[[case]][[value]] <- as.character(test.melt$value [ test.melt$case==case & test.melt$variable == variable ])
-  }
-}
-str(Alternatives)
-
+#test.melt <- melt(test, id.vars = "case")
 
 
 #### Now Goals #######
-
-Goal.name <- as.character("Vulnerability.level")
-Goal.description <- as.character("Multi-criteria definition of vulnerability")
 
 ## decision-makersoptional node needed only if not all decision-makers have equal voting power ###
 #Goal.decision-makers <- as.list("decision-makers1","decision-makers2","decision-makers3")
@@ -95,13 +79,15 @@ Goal.description <- as.character("Multi-criteria definition of vulnerability")
 
 ## Building Preferences from a data frame
 library(readr)
-data <- read_delim("data/data_old.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+data <- read_delim("data/data.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 #names(data)
 
 ## "intro.name",  "intro.operation", "intro.expertise", "intro.experience"
 critname <- names(data)
-critname <- grep("Comp-", critname,value = TRUE)
-data.melt <- melt(data, id.vars = "intro.name", measure.vars = critname)
+
+### Melting priority
+critnamecomp <- grep("op.Comp_", critname,value = TRUE)
+data.melt <- melt(data, id.vars = "_uuid", measure.vars = critnamecomp)
 
 ## Temporaly rename the decision makers variable
 names(data.melt)[1] <- "decisionmakers"
@@ -112,7 +98,7 @@ data.melt$var2 <- ""
 
 for (i in 1:nrow(data.melt)) {
   #i <- 1
-  post1 <- regexpr('Comp-', data.melt[i,2]) + 5
+  post1 <- regexpr('op.Comp_', data.melt[i,2]) + 8
   post11 <- regexpr('-to-', data.melt[i,2])
   post2 <- regexpr('-to-', data.melt[i,2]) + 4
   data.melt[i,4] <- substring(data.melt[i,2], post1, post11 - 1)
@@ -120,143 +106,101 @@ for (i in 1:nrow(data.melt)) {
 }
 rm(post1,post11,post2,i)
 
-#Goal.preferences <- as.list()
-#Goal.preferences.decision-makers.pairwise <-
 
-#variable <- "Comp-age-to-need"
-#decisionmakers <- "test2"
+### Melting comparioson
+critnameimp <- grep("op.imp_", critname,value = TRUE)
+data.melt2 <- melt(data, id.vars = "_uuid", measure.vars = critnameimp)
 
-Goal.preferences <- list()
-for (decisionmakers in unique(data.melt$decisionmakers)) {
-  for (variable in unique(data.melt$variable)) {
-  #Goal.preferences[[decisionmakers]] <- list(list())
-  #Goal.preferences[[decisionmakers]][[1]]     <- list(
-  Goal.preferences[[decisionmakers]][[variable]]     <- list(
-     paste("[", as.character(data.melt$var1[ data.melt$decisionmakers == decisionmakers & data.melt$variable == variable ]),", ",
-     as.character(data.melt$var2[ data.melt$decisionmakers == decisionmakers & data.melt$variable == variable ]),", ",
-     as.character(data.melt$value[ data.melt$decisionmakers == decisionmakers & data.melt$variable == variable ]),"]", sep = ""))
+## Temporaly rename the decision makers variable
+names(data.melt2)[1] <- "decisionmakers"
+names(data.melt2)[3] <- "importance"
+
+## Rebuilding the 2  criteria variables
+data.melt2$var1 <- ""
+data.melt2$var2 <- ""
+
+for (i in 1:nrow(data.melt2)) {
+  #i <- 1
+  post1 <- regexpr('op.imp_', data.melt2[i,2]) + 8
+  post11 <- regexpr('-to-', data.melt2[i,2])
+  post2 <- regexpr('-to-', data.melt2[i,2]) + 4
+  data.melt2[i,4] <- substring(data.melt2[i,2], post1, post11 - 1)
+  data.melt2[i,5] <- substring(data.melt2[i,2],  post2)
+}
+rm(post1,post11,post2,i)
+importance <- as.data.frame(data.melt2[ ,c("importance")])
+names(importance)[1] <- "importance"
+
+str(importance)
+## Merging
+data.melt3 <- cbind(data.melt, importance)
+data.melt3$importance2 <- as.character(data.melt3$importance)
+str(data.melt3)
+
+## Now rebuild importance
+for (i in 1:nrow(data.melt3)) {
+  #i <- 7
+  #i <- 3
+  first <- data.melt3[ i, c("value")]
+  data.melt3[ i, c("importance2")] <- ifelse(first == "Equal", as.character("1"),
+                                             data.melt3[ i, c("importance2")])
+  data.melt3[ i, c("importance2")] <- ifelse(first == "secondcriteria", paste0("1/",as.character(data.melt3[ i, c("importance")])),
+                                             data.melt3[ i, c("importance2")])
+}
+
+data.melt3$pairwise <-  paste("[", as.character(data.melt3$var1),", ",
+                              as.character(data.melt3$var2),", ",
+                              as.character(data.melt3$importance2),"]", sep = "")
+
+data.melt3 <- data.melt3[, c("decisionmakers","pairwise")]
+rm(data.melt, data.melt2,  importance, criteria, test, critname, critnamecomp,critnameimp, first, i)
+
+
+
+Version <- as.character("2.0")
+
+mainDir <- getwd()
+#### Writing ahp file with cat
+ahpfile <- paste(mainDir, "/data/ahp/vulnerabilitycat.ahp", sep = "")
+
+## TO DO : CHECK IF FILE EXIST - AND REQUEST USER TO DELETE BEFORE REGENERATING - SUGGESTING TO SAVE PREVIOUS UNDER NEW NAME
+if (file.exists(ahpfile)) file.remove(ahpfile)
+
+
+cat("Version: 2.0", file = ahpfile , sep = "\n", append = TRUE)
+cat("Alternatives: &alternatives", file = ahpfile , sep = "\n", append = TRUE)
+for (i in 1:nrow(test)) {
+
+  cat(paste0("  Case",i), file = ahpfile , sep = "\n", append = TRUE)
+  for (j in 1:ncol(test)) {
+    cat(paste0("    ", as.character(names(test)[j]), ": ",as.character(test[i, j])), file = ahpfile , sep = "\n", append = TRUE)
   }
 }
-str(Goal.preferences)
 
-## Rename the pairwise list
-for (i in 1:nrow(as.data.frame(unique(data.melt$decisionmakers)))) {
-#  for(j in 1:nrow(as.data.frame(unique(data.melt$variable)))){
-    names(Goal.preferences[[i]]) <- c("pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise","pairwise")
-#  }
+
+cat("Goal:", file = ahpfile , sep = "\n", append = TRUE)
+cat("  name: Vulnerability.level", file = ahpfile , sep = "\n", append = TRUE)
+cat("  description: Multi-criteria definition of vulnerability", file = ahpfile , sep = "\n", append = TRUE)
+cat("  preferences:", file = ahpfile , sep = "\n", append = TRUE)
+
+decisionmaker <- unique(data.melt3$decisionmakers)
+for (i in decisionmaker) {
+
+  cat(paste0("    ",i), file = ahpfile , sep = "\n", append = TRUE)
+  cat(paste0("      pairwise:"), file = ahpfile , sep = "\n", append = TRUE)
+  data.melt4 <- data.melt3[data.melt3$decisionmakers == i, ]
+  for (j in 1:nrow(data.melt4)) {
+    cat(paste0("      - ", as.character(data.melt4[j, c("pairwise")])), file = ahpfile , sep = "\n", append = TRUE)
+  }
+  rm(data.melt4)
 }
-str(Goal.preferences)
-
-#### Checking second level hierarchy if needed ###############
-#This is where preference for each decision maker is for second level hierarchy
-#Goal.children <- as list
-
-## Bind everything to the goal tree ####
-Goal <- list(Goal.name, Goal.description,  Goal.preferences)
-# Goal <- as.list(Goal.name, Goal.description, Goal.decisionmakers, Goal.preferences, Goal.children)
-names(Goal ) <- c("name", "description", "preferences")
-str(Goal)
-## Bind everything to get the AHP tree ####
-#ahptree <- as.list(Version,Alternatives,Goal)
-#rm(ahptree.out)
-ahptree.out <- list(as.character(Version), as.list(Alternatives), as.list(Goal))
-names(ahptree.out ) <- c("Version", "Alternatives","Goal")
-#as.yaml(ahptree.out)
-write( as.yaml(ahptree.out,
-              handlers = list(
-                logical = function(x) {
-                  result <- ifelse(x, "yes", "no", "2.0","pairwise")
-                  class(result) <- "verbatim"
-                  return(result)
-                })),
-     "data/ahp/vulnerability.ahp")
 
 
-write(as.yaml(ahptree.out,
-      handlers = list(
-        logical = function(x) {
-          result <- ifelse(x, "yes", "no")
-          class(result) <- "verbatim"
-          return(result)
-        }),
-      omap = TRUE), "data/ahp/vulnerability-omap.ahp")
-
-
-
-
-
-###########################################################################3
-
-
-as.yaml(Alternatives,
-        handlers = list(
-          logical = function(x) {
-            result <- ifelse(x, "yes", "no")
-            class(result) <- "verbatim"
-            return(result)
-          }
-        ))
-
-# custom handler with verbatim output to avoid quote
-write(as.yaml(Alternatives,
-              handlers = list(
-                logical = function(x) {
-                  result <- ifelse(x, "yes", "no")
-                  class(result) <- "verbatim"
-                  return(result)
-                }
-              )),
-      "data/ahp/1-write-test.ahp")
-
-#### Testing with df into a data.tree structure
-# The pathString describes the hierarchy by defining a path from the root to each leaf.
-#names(test.melt)
-test.melt$pathString <- paste("&alternatives",
-                              test.melt$case,
-                              #  test.melt$variable,
-                              test.melt$value,
-                              sep = "/")
-
-#Once our pathString is defined, conversion to Node is very easy:
-test.melt.node1 <- as.Node(test.melt)
-test.melt.node1
-class(test.melt.node1)
-# but did not work when converting to YAML -
-# don't know how to emit object of type: 'environment', class: Node R6
-#write(as.yaml(test.melt.node1), "data/ahp/2-write-test-node.ahp")
-## Convert to list before saving as YAML
-write(as.yaml(ToListExplicit(test.melt.node1, unname = TRUE)), "data/ahp/2-write-test-node.ahp")
-
-
-## Testing creation directly from the previously created list
-test.melt.node2 <- as.Node(Alternatives)
-test.melt.node2
-print(test.melt.node2)
-class(test.melt.node2)
-str(test.melt.node2)
-test.melt.node2@p_name
-##but did not work when converting to YAML
-# don't know how to emit object of type: 'environment', class: Node R6
-#write(as.yaml(test.melt.node2), "data/ahp/3-write-test-node.ahp")
-## pb - Alternatives: &alternatives
-## Convert to list before saving as YAML
-write(as.yaml(ToListExplicit(test.melt.node2, unname = TRUE)), "data/ahp/3-write-test-node.ahp")
-
-
-
-
-
-
-
-
-##### Testing..
-ahpFile <- ("data/ahp/4-write-test-final.ahp")
-## Check
-processedAHP <- Load(ahpFile)
-print(processedAHP, filterFun = isNotLeaf)
-Calculate(processedAHP)
-ahp::Analyze(processedAHP)
-
-
-
-
+cat(paste0("  children:"), file = ahpfile , sep = "\n", append = TRUE)
+for (i in names(test)) {
+cat(paste0("    ",i,":"), file = ahpfile , sep = "\n", append = TRUE)
+cat(paste0("      preferences:"), file = ahpfile , sep = "\n", append = TRUE)
+cat(paste0("        pairwiseFunction:"), file = ahpfile , sep = "\n", append = TRUE)
+cat(paste0("          function(a1, a2) min(9, max(1/9, a2$",i,"/a1$",i,"))"), file = ahpfile , sep = "\n", append = TRUE)
+cat(paste0("      children: *alternatives"), file = ahpfile , sep = "\n", append = TRUE)
+}
